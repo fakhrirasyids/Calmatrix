@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.calculate.fragment.MatrixBFragment">
+
+
+    <GridView
+        android:id="@+id/grid_view_matrix_b"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:stretchMode="columnWidth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/layout_row_column"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toTopOf="@id/layout_button">
+
+            <TextView
+                android:id="@+id/tv_rows"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="Rows"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/btn_clear"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_rows"
+                app:layout_constraintStart_toStartOf="@id/btn_clear" />
+
+            <Spinner
+                android:id="@+id/spinner_rows"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                android:entries="@array/array_entries"
+                app:layout_constraintBottom_toBottomOf="@id/tv_rows"
+                app:layout_constraintEnd_toEndOf="@id/btn_clear"
+                app:layout_constraintStart_toEndOf="@id/tv_rows"
+                app:layout_constraintTop_toTopOf="@id/tv_rows" />
+
+            <TextView
+                android:id="@+id/tv_columns"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="Columns"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/layout_button"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_columns"
+                app:layout_constraintStart_toStartOf="@id/layout_button" />
+
+            <Spinner
+                android:id="@+id/spinner_columns"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/array_entries"
+                app:layout_constraintBottom_toBottomOf="@id/tv_columns"
+                app:layout_constraintEnd_toEndOf="@id/layout_button"
+                app:layout_constraintStart_toEndOf="@+id/tv_columns"
+                app:layout_constraintTop_toTopOf="@id/tv_columns" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:text="Clear"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/_8sdp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
