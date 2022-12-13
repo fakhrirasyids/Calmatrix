@@ -13,6 +13,7 @@
     <string name="trace">Trace</string>
     <string name="inverse">Inverse</string>
     <string name="transpose">Transpose</string>
+    <string name="scalar">Scalar</string>
     <string name="scalar_multiply">Scalar Multiply</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="rows">Rows</string>

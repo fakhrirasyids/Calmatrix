@@ -83,6 +83,7 @@ class MatrixBFragment : Fragment() {
         binding.btnClear.setOnClickListener {
             clearMatrix(matrix)
             adapter.notifyDataSetChanged()
+            setMatrixGrid()
         }
 
         return binding.root

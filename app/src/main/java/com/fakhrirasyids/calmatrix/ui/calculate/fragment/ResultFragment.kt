@@ -94,7 +94,7 @@ class ResultFragment : Fragment() {
             val isMatrixAEmpty = checkMatrix("A")
             val isMatrixBEmpty =
                 if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
-//            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
+            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
 
             if (!isMatrixAEmpty) {
                 readMatrix("A")
@@ -108,11 +108,11 @@ class ResultFragment : Fragment() {
                 }
             }
 //
-//            if (type == "Scalar Multiply") {
-//                if (!isScalarKEmpty) {
-//                    readScalar()
-//                }
-//            }
+            if (type == "Scalar Multiply") {
+                if (!isScalarKEmpty) {
+                    readScalar()
+                }
+            }
 
             val condition1 = if (type == "Add" || type == "Subtract" || type == "Multiply") {
                 (!isMatrixAEmpty && !isMatrixBEmpty)
@@ -179,7 +179,7 @@ class ResultFragment : Fragment() {
             val isMatrixAEmpty = checkMatrix("A")
             val isMatrixBEmpty =
                 if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
-//            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
+            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
 
             if (!isMatrixAEmpty) {
                 readMatrix("A")
@@ -191,11 +191,11 @@ class ResultFragment : Fragment() {
                 }
             }
 
-//            if (type == "Scalar Multiply") {
-//                if (!isScalarKEmpty) {
-//                    readScalar()
-//                }
-//            }
+            if (type == "Scalar Multiply") {
+                if (!isScalarKEmpty) {
+                    readScalar()
+                }
+            }
 
             when (type) {
                 "Add" -> MatrixOperations.add(matrixA, matrixB, matrix)
@@ -300,21 +300,21 @@ class ResultFragment : Fragment() {
             matrix.clone()
     }
 
-//    private fun checkScalar(): Boolean {
-//        val itemView =
-//            ScalarKFragment.constraintLayout
-//        val editText = itemView.findViewById<EditText>(R.id.et_scalar)
-//
-//        if (editText.text.toString().isEmpty()) return true
-//        return false
-//    }
+    private fun checkScalar(): Boolean {
+        val itemView =
+            ScalarKFragment.constraintLayout
+        val editText = itemView.findViewById<EditText>(R.id.et_scalar)
 
-//    private fun readScalar() {
-//        val itemView =
-//            ScalarKFragment.constraintLayout
-//        val editText = itemView.findViewById<EditText>(R.id.et_scalar)
-//        scalar = editText.text.toString().toFloat()
-//    }
+        if (editText.text.toString().isEmpty()) return true
+        return false
+    }
+
+    private fun readScalar() {
+        val itemView =
+            ScalarKFragment.constraintLayout
+        val editText = itemView.findViewById<EditText>(R.id.et_scalar)
+        scalar = editText.text.toString().toFloat()
+    }
 
     private fun showResult() {
         when (type) {

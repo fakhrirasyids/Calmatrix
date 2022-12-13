@@ -12,5 +12,11 @@ class Constants {
             R.string.matrixb,
             R.string.result
         )
+
+        val TAB_TITLES_SCALAR = intArrayOf(
+            R.string.matrixa,
+            R.string.scalar,
+            R.string.result
+        )
     }
 }
