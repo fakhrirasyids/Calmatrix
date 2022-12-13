@@ -19,6 +19,7 @@ import com.fakhrirasyids.calmatrix.ui.adapter.ResultGridViewAdapter
 import com.fakhrirasyids.calmatrix.ui.calculate.CalculateActivity
 import com.fakhrirasyids.calmatrix.utils.InverseOperations
 import com.fakhrirasyids.calmatrix.utils.MatrixOperations
+import com.google.android.material.button.MaterialButton
 
 class ResultFragment : Fragment() {
     private var _binding: FragmentResultBinding? = null
@@ -31,6 +32,9 @@ class ResultFragment : Fragment() {
     private var determinant: Float = 0F
     private var scalar: Float = 0F
     private var matrix: Array<Array<Float>> = Array(2) { Array(2) { 0f } }
+
+    private lateinit var matrixA: Array<Array<Float>>
+    private lateinit var matrixB: Array<Array<Float>>
     private lateinit var gridViewMatrixResult: GridView
     private lateinit var type: String
 
@@ -42,7 +46,8 @@ class ResultFragment : Fragment() {
 
         type = (activity as CalculateActivity).getMessageType()
         binding.btnCalculate.text = type
-        binding.btnResult.isEnabled = false
+        btnResult = binding.btnResult
+        btnResult.isEnabled = false
         gridViewMatrixResult = binding.gridViewMatrixResult
 
         if (type == "Determinant" || type == "Trace") {
@@ -74,15 +79,21 @@ class ResultFragment : Fragment() {
         binding.btnClear.setOnClickListener {
             clearMatrix(matrix)
             adapter.notifyDataSetChanged()
+            setupMatrixEntry(binding.root)
+            btnResult.isEnabled = false
 //            btn_calculate.setBackgroundResource(R.drawable.bg_btn)
 //            btn_calculate.setTextColor(Color.parseColor("#3C4473"))
         }
 
         binding.btnCalculate.setOnClickListener {
-            var matrixA = MatrixAFragment.matrix
-            var matrixB = if (type == "Add" || type == "Subtract" || type == "Multiply") MatrixBFragment.matrix else Array(2) {Array(2) {0f} }
+            matrixA = MatrixAFragment.matrix
+            matrixB =
+                if (type == "Add" || type == "Subtract" || type == "Multiply") MatrixBFragment.matrix else Array(
+                    2
+                ) { Array(2) { 0f } }
             val isMatrixAEmpty = checkMatrix("A")
-            val isMatrixBEmpty = if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
+            val isMatrixBEmpty =
+                if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
 //            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
 
             if (!isMatrixAEmpty) {
@@ -113,33 +124,38 @@ class ResultFragment : Fragment() {
                 (!isMatrixAEmpty)
             }
 
-            val condition2 = if (type == "Add" || type == "Subtract") {
-                (matrixA.size == matrixB.size && matrixA[0].size == matrixB[0].size)
-            } else if (type == "Multiply") {
-                (matrixA[0].size == matrixB.size)
-            } else if (type == "Determinant" || type == "Trace" || type == "Inverse") {
-                (matrixA.size== matrixA[0].size)
-            } else {
-                false // for transpose and scalar multipy
+            val condition2 = when (type) {
+                "Add", "Subtract" -> {
+                    (matrixA.size == matrixB.size && matrixA[0].size == matrixB[0].size)
+                }
+                "Multiply" -> {
+                    (matrixA[0].size == matrixB.size)
+                }
+                "Determinant", "Trace", "Inverse" -> {
+                    (matrixA.size == matrixA[0].size)
+                }
+                else -> {
+                    false // for transpose and scalar multipy
+                }
             }
 
             when (type) {
                 "Transpose", "Scalar Multiply" -> {
                     if (condition1) {
                         setupMatrixEntry(binding.root)
-                        binding.btnResult.isEnabled = true
+                        btnResult.isEnabled = true
                     } else {
                         setToast(binding.root, message1)
                     }
                 }
                 "Determinant", "Trace" -> {
-                    binding.btnResult.isEnabled = true
+                    btnResult.isEnabled = true
                 }
                 else -> {
                     if (condition1) {
                         if (condition2) {
                             setupMatrixEntry(binding.root)
-                            binding.btnResult.isEnabled = true
+                            btnResult.isEnabled = true
                         } else {
                             setToast(binding.root, message2)
                         }
@@ -157,22 +173,21 @@ class ResultFragment : Fragment() {
 //            }
         }
 
-        binding.btnResult.setOnClickListener {
-            var matrixA = MatrixAFragment.matrix
-            var matrixB = if (type == "Add" || type == "Subtract" || type == "Multiply") MatrixBFragment.matrix else Array(2) {Array(2) {0f} }
+        btnResult.setOnClickListener {
+//            var matrixA = MatrixAFragment.matrix
+//            var matrixB = if (type == "Add" || type == "Subtract" || type == "Multiply") MatrixBFragment.matrix else Array(2) {Array(2) {0f} }
             val isMatrixAEmpty = checkMatrix("A")
-            val isMatrixBEmpty = if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
+            val isMatrixBEmpty =
+                if (type == "Add" || type == "Subtract" || type == "Multiply") checkMatrix("B") else false
 //            val isScalarKEmpty = if (type == "Scalar Multiply") checkScalar() else false
 
             if (!isMatrixAEmpty) {
                 readMatrix("A")
-                matrixA = MatrixAFragment.matrix
             }
 
             if (type == "Add" || type == "Subtract" || type == "Multiply") {
                 if (!isMatrixBEmpty) {
                     readMatrix("B")
-                    matrixB = MatrixBFragment.matrix
                 }
             }
 
@@ -194,6 +209,8 @@ class ResultFragment : Fragment() {
             }
 
             showResult()
+
+            btnResult.isEnabled = false
         }
 
         return binding.root
@@ -204,21 +221,23 @@ class ResultFragment : Fragment() {
     }
 
     private fun setupMatrixEntry(view: View) {
-        val rows = if (type == "Add" || type == "Subtract" || type == "Multiply" || type == "Inverse" || type == "Scalar Multiply") {
-            MatrixAFragment.matrix.size
-        } else {
-            MatrixAFragment.matrix[0].size
-        }
+        val rows =
+            if (type == "Add" || type == "Subtract" || type == "Multiply" || type == "Inverse" || type == "Scalar Multiply") {
+                MatrixAFragment.matrix.size
+            } else {
+                MatrixAFragment.matrix[0].size
+            }
 
-        val columns = if (type == "Add" || type == "Subtract" || type == "Inverse" || type == "Scalar Multiply") {
-            MatrixAFragment.matrix[0].size
-        } else if (type == "Multiply") {
-            MatrixBFragment.matrix[0].size
-        } else {
-            MatrixAFragment.matrix.size
-        }
+        val columns =
+            if (type == "Add" || type == "Subtract" || type == "Inverse" || type == "Scalar Multiply") {
+                MatrixAFragment.matrix[0].size
+            } else if (type == "Multiply") {
+                MatrixBFragment.matrix[0].size
+            } else {
+                MatrixAFragment.matrix.size
+            }
 
-        matrix = Array(rows) {Array(columns) {0f} }
+        matrix = Array(rows) { Array(columns) { 0f } }
         adapter = ResultGridViewAdapter(
             view.context,
             matrix
@@ -247,7 +266,8 @@ class ResultFragment : Fragment() {
 
     private fun checkMatrix(type: String): Boolean {
         val matrix = if (type == "A") MatrixAFragment.matrix else MatrixBFragment.matrix
-        val gridViewMatrix = if (type == "A") MatrixAFragment.gridViewMatrixA else MatrixBFragment.gridViewMatrixB
+        val gridViewMatrix =
+            if (type == "A") MatrixAFragment.gridViewMatrixA else MatrixBFragment.gridViewMatrixB
 
         var itemView: View
         var editText: EditText
@@ -263,7 +283,8 @@ class ResultFragment : Fragment() {
 
     private fun readMatrix(type: String) {
         val matrix = if (type == "A") MatrixAFragment.matrix else MatrixBFragment.matrix
-        val gridViewMatrix = if (type == "A") MatrixAFragment.gridViewMatrixA else MatrixBFragment.gridViewMatrixB
+        val gridViewMatrix =
+            if (type == "A") MatrixAFragment.gridViewMatrixA else MatrixBFragment.gridViewMatrixB
 
         var itemView: View
         var editText: EditText
@@ -275,7 +296,8 @@ class ResultFragment : Fragment() {
                 matrix[i][j] = editText.text.toString().toFloat()
             }
 
-        if (type == "A") MatrixAFragment.matrix = matrix.clone() else MatrixBFragment.matrix = matrix.clone()
+        if (type == "A") MatrixAFragment.matrix = matrix.clone() else MatrixBFragment.matrix =
+            matrix.clone()
     }
 
 //    private fun checkScalar(): Boolean {
@@ -310,5 +332,9 @@ class ResultFragment : Fragment() {
                     }
             }
         }
+    }
+
+    companion object {
+        lateinit var btnResult: MaterialButton
     }
 }

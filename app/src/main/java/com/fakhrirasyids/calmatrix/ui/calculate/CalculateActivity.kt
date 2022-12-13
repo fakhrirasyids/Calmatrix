@@ -28,6 +28,8 @@ class CalculateActivity : AppCompatActivity() {
                 StringBuilder("$messageType Matrix")
         }
 
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+
         val sectionPagerAdapter = SectionPagerAdapter(this)
         binding.viewPager.adapter = sectionPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->

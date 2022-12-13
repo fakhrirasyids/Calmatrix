@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 moveToCalculateActivity("Add")
             }
             btnSubtractMatrix.setOnClickListener {
-                moveToCalculateActivity("Substract")
+                moveToCalculateActivity("Subtract")
             }
             btnMultiplyMatrix.setOnClickListener {
                 moveToCalculateActivity("Multiply")
