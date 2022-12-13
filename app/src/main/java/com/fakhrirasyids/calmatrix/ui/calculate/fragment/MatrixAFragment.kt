@@ -20,10 +20,6 @@ class MatrixAFragment : Fragment() {
     private val matrixViewModel by viewModels<MatrixViewModel>()
 
     private val binding get() = _binding!!
-    private var matrix: Array<Array<Float>> = Array(2) { Array(2) { 0f } }
-    private var rows: Int = 2
-    private var columns: Int = 2
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +48,8 @@ class MatrixAFragment : Fragment() {
         binding.spinnerRows.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, id: Int, position: Long) {
                 setMatrixGrid()
+                clearMatrix(matrix)
+                adapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -66,6 +64,8 @@ class MatrixAFragment : Fragment() {
                     position: Long
                 ) {
                     setMatrixGrid()
+                    clearMatrix(matrix)
+                    adapter.notifyDataSetChanged()
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -73,7 +73,7 @@ class MatrixAFragment : Fragment() {
 
 
         binding.btnClear.setOnClickListener {
-            clearMatrix()
+            clearMatrix(matrix)
             adapter.notifyDataSetChanged()
         }
 
@@ -81,17 +81,12 @@ class MatrixAFragment : Fragment() {
     }
 
     private fun setMatrixGrid() {
-        rows = binding.spinnerRows.selectedItem.toString().toInt()
-        columns = binding.spinnerColumns.selectedItem.toString().toInt()
+        val rows = binding.spinnerRows.selectedItem.toString().toInt()
+        val columns = binding.spinnerColumns.selectedItem.toString().toInt()
         matrix =
             Array(rows) { Array(columns) { 0f } }
         adapter = GridViewAdapter(requireContext(), matrix)
         setupMatrixEntry(columns, adapter)
-        Toast.makeText(
-            requireContext(),
-            " ROw 1 : ${matrixViewModel.matrixA.value!![0][0]}",
-            Toast.LENGTH_SHORT
-        ).show()
         matrixViewModel.matrixA.value =
             Array(rows) { Array(columns) { 0f } }
     }
@@ -101,14 +96,14 @@ class MatrixAFragment : Fragment() {
         gridViewMatrixA.adapter = adapter
     }
 
-    private fun clearMatrix() {
-        setMatrixGrid()
-
-        matrixViewModel.matrixA.value =
-            Array(rows) { Array(columns) { 0f } }
+    private fun clearMatrix(matrix: Array<Array<Float>>) {
+        for (i in matrix.indices)
+            for (j in matrix[i].indices)
+                matrix[i][j] = 0f
     }
 
     companion object {
+        var matrix: Array<Array<Float>> = Array(2) {Array(2) {0f} }
         lateinit var gridViewMatrixA: GridView
     }
 }

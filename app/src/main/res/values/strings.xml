@@ -6,6 +6,24 @@
     <string name="matrixb">Matrix B</string>
     <string name="result">Result</string>
 
+    <string name="add">Add</string>
+    <string name="subtract">Subtract</string>
+    <string name="multiply">Multiply</string>
+    <string name="determinant">Determinant</string>
+    <string name="trace">Trace</string>
+    <string name="inverse">Inverse</string>
+    <string name="transpose">Transpose</string>
+    <string name="scalar_multiply">Scalar Multiply</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="rows">Rows</string>
+    <string name="columns">Columns</string>
+    <string name="clear">Clear</string>
+    <string name="resize">Resize</string>
+    <string name="fromat">%.2f</string>
+    <string name="desc">You can calculate the matrix easily at anytime and anywhere</string>
+    <string name="welcome">Welcome to Matrix Calculator</string>
+    <string name="calculator">Calculator</string>
+
     <string-array name="array_entries">
         <item>2</item>
         <item>3</item>

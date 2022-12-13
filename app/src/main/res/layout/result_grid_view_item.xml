@@ -15,5 +15,6 @@
         android:gravity="center"
         android:inputType="numberSigned|numberDecimal"
         android:scrollHorizontally="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColorHint="@color/black" />
 </com.google.android.material.textfield.TextInputLayout>

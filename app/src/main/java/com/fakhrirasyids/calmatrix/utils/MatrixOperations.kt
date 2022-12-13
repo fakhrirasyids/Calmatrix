@@ -1,18 +1,15 @@
 package com.fakhrirasyids.calmatrix.utils
 
 object MatrixOperations {
+
     fun add(
         matrix1: Array<Array<Float>>,
         matrix2: Array<Array<Float>>,
-        row: Int,
-        col: Int
-    ): Array<Array<Float>> {
-        var matrixResult: Array<Array<Float>> = Array(row) { Array(col) { 0f } }
+        matrixResult: Array<Array<Float>>
+    ) {
         for (i: Int in matrix1.indices)
             for (j: Int in matrix1[0].indices)
                 matrixResult[i][j] = matrix1[i][j] + matrix2[i][j]
-
-        return matrixResult
     }
 
     fun subtract(
@@ -42,6 +39,11 @@ object MatrixOperations {
         }
     }
 
+    fun determinant(matrix1: Array<Array<Float>>): Float {
+        val gaussElimination = GaussElimination()
+        return gaussElimination.determinantByGauss(matrix1)
+    }
+
     fun transpose(
         matrix1: Array<Array<Float>>,
         matrixResult: Array<Array<Float>>
@@ -49,6 +51,15 @@ object MatrixOperations {
         for (i in matrix1.indices)
             for (j in matrix1[0].indices)
                 matrixResult[j][i] = matrix1[i][j]
+    }
+
+    fun trace(matrix1: Array<Array<Float>>): Float {
+        var result = 0F
+        for (i in matrix1.indices)
+            for (j in matrix1[0].indices)
+                if (i == j)
+                    result += matrix1[i][i]
+        return result
     }
 
     fun scalar(
